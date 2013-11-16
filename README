@@ -1,0 +1,7 @@
+To check actisense and serial port:
+sudo ./actisense-serial -r /dev/ttyO2
+
+
+
+To read data from network and display on the screen:
+sudo ./actisense-serial -r /dev/ttyO2 | ./analyzer 
