@@ -45,7 +45,10 @@ sub systemTime
 							{
 								my @timeSplit = split(/\"/,$_);
 								my $timeSplit;
-								return $timeSplit[3];
+								my @finalSplit = split(/\./,$timeSplit[3]);
+                                                                my $finalSplit;
+                                                                return $finalSplit[0];
+
 							}
 
 					}
@@ -66,11 +69,10 @@ sub systemDate
                                 foreach(@splitData)
                                         {
 
-                                                if ($_ =~m/\"Time/g)
+                                                if ($_ =~m/\"Date/g)
                                                         {
-                                                                my @dateSplit = split(/\"/,$_);
+							        my @dateSplit = split(/\"/,$_);
                                                                 my $dateSplit;
-                                                                print "Date from sub $dateSplit[3]\n";
 								return $dateSplit[3];
                                                         }
                                         }
