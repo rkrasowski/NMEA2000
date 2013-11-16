@@ -9,10 +9,10 @@ open($ACTISENSE,"./linux-arm-gnuaebi/actisense-serial -r /dev/ttyO2 | ./linux-ar
 #readingAll();
 
 
-##while (<$ACTISENSE>)
-	#	{
-		##	heading($_);
-	#	}
+#while (<$ACTISENSE>)
+#		{
+#			SOG($_);
+#		}
 #exit();
 
 
@@ -24,6 +24,13 @@ while ( <$ACTISENSE> )
 
 	{
 		
+		my $SOG = SOG($_);
+			if ($SOG)
+				{
+					print "SOG is $SOG\n";
+				}
+		
+
 		 my $pos = position($_);
                         if ($pos)
                                 {
@@ -58,6 +65,26 @@ close($ACTISENSE);
 
 
 ###################################################################################################
+
+#{"timestamp":"2013-11-16-19:10:30.597","prio":"2","src":"127","dst":"255","pgn":"129026","description":"COG & SOG, Rapid Update","fields":{"SID":"0","COG Reference":"True","SOG":"0.01"}}
+
+sub SOG 
+	{
+		 my $data = shift;
+                if ($data =~ m/pgn\":\"129026/)
+                        {
+                                my @splitSOG = split(/:{\"/,$data);
+				my $splitSOG;
+				my @finalSOG = split(/\"/,$splitSOG[1]);
+				my $finalSOG;
+				return $finalSOG[10];
+			}
+
+
+	}
+
+
+
 
 #{"timestamp":"2013-11-16-18:42:32.704","prio":"2","src":"128","dst":"255","pgn":"127250","description":"Vessel Heading","fields":{"SID":"0","Heading":"146.7","Variation":"-8.3","Reference":"Magnetic"}}
 sub heading 
