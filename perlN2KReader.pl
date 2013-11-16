@@ -9,8 +9,10 @@ open($ACTISENSE,"./linux-arm-gnuaebi/actisense-serial -r /dev/ttyO2 | ./linux-ar
 #readingAll();
 
 
-#while (<$ACTISENSE>)
-
+##while (<$ACTISENSE>)
+	#	{
+		##	heading($_);
+	#	}
 #exit();
 
 
@@ -29,6 +31,11 @@ while ( <$ACTISENSE> )
                                 }
 
 
+		my $head = heading($_);
+			if ($head)
+				{
+					print "Heading is: $head\n";
+				}
 
 
 		my $time = systemTime($_);
@@ -49,7 +56,28 @@ while ( <$ACTISENSE> )
 
 close($ACTISENSE);
 
+
 ###################################################################################################
+
+#{"timestamp":"2013-11-16-18:42:32.704","prio":"2","src":"128","dst":"255","pgn":"127250","description":"Vessel Heading","fields":{"SID":"0","Heading":"146.7","Variation":"-8.3","Reference":"Magnetic"}}
+sub heading 
+	{
+		my $data = shift;
+                if ($data =~ m/pgn\":\"127250/)
+			{
+				my @splitHead = split(/:{\"/,$data);
+				my $splitHead;
+				my @finalHead = split(/\"/,$splitHead[1]);
+				my $finalHead;
+				return $finalHead[6];
+			}
+
+	}
+
+
+
+
+
 
 
 #{"timestamp":"2013-11-16-18:08:56.095","prio":"2","src":"127","dst":"255","pgn":"129025","description":"Position, Rapid Update","fields":{"Latitude":"35.7265558","Longitude":"-79.8284838"}}
