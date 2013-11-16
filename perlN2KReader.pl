@@ -2,11 +2,35 @@
 use strict;
 use warnings;
 
+my $ACTISENSE;
+open($ACTISENSE,"./linux-arm-gnuaebi/actisense-serial -r /dev/ttyO2 | ./linux-arm-gnuaebi/analyzer -json|") || die "Failed: $!\n";
 
-open(PS,"./linux-arm-gnuaebi/actisense-serial -r /dev/ttyO2 | ./linux-arm-gnuaebi/analyzer -json|") || die "Failed: $!\n";
-while ( <PS> )
+
+#readingAll();
+
+
+#while (<$ACTISENSE>)
+
+#exit();
+
+
+
+
+
+
+while ( <$ACTISENSE> )
 
 	{
+		
+		 my $pos = position($_);
+                        if ($pos)
+                                {
+                                        print "Pos is $pos\n";
+                                }
+
+
+
+
 		my $time = systemTime($_);
 		if ($time)
 			{
@@ -21,15 +45,48 @@ while ( <PS> )
 			{		
 				print "Date is :$date\n";
 			}
-		#if ($_ =~ m/COG/)
-		#	{
-	#			print "$_";
-		#	}
 	}
 
-close(PS);
+close($ACTISENSE);
 
 ###################################################################################################
+
+
+#{"timestamp":"2013-11-16-18:08:56.095","prio":"2","src":"127","dst":"255","pgn":"129025","description":"Position, Rapid Update","fields":{"Latitude":"35.7265558","Longitude":"-79.8284838"}}
+
+sub position 
+	{
+		my $data = shift;
+                if ($data =~ m/pgn\":\"129025/)
+                        {
+				my @splitPos = split(/:{\"/,$data);
+				my $splitPos;
+				my @splitPosComa = split (/,/,$splitPos[1]);
+				my $splitPosComa;
+				my @latSplit = split(/\"/,$splitPosComa[0]);
+				my $latSplit;
+				my @lonSplit = split(/\"/,$splitPosComa[1]);
+				my $lonSplit;
+				return $latSplit[2].",".$lonSplit[3];
+			}
+
+
+	}
+
+
+
+
+sub readingAll
+	{
+		while ( <$ACTISENSE> )
+			{
+				print $_;
+			}
+
+	}
+
+
+
 
 
 sub systemTime 
