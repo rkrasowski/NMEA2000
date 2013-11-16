@@ -1,10 +1,7 @@
 NMEA2000 reading system with Actisense NGT-1-ISO. Written in Perl and C
 
-
 To check actisense and serial port:
 sudo ./actisense-serial -r /dev/ttyO2
-
-
 
 To read data from network and display on the screen:
 sudo ./actisense-serial -r /dev/ttyO2 | ./analyzer 
