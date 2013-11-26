@@ -1,0 +1,5 @@
+Created by Robert J. Krasowski 
+Linuxx86_64 - works on main computer
+For BeagleBone: linux-arm-gnuaebi
+but required: sudo apt-get install libc6-armel
+ 
